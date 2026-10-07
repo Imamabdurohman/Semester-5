@@ -53,11 +53,15 @@ class _TugasSesi1PageState extends State<TugasSesi1Page> {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
-        title: const Text(
-          'Tugas Sesi 1',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+  title: const Text(
+    'PPM Sesi 1 - Imam Abdurohman Ramdani (20240040112)',
+    style: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
+    overflow: TextOverflow.ellipsis,
+  ),
+),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -77,7 +81,7 @@ class _TugasSesi1PageState extends State<TugasSesi1Page> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.indigo.withOpacity(0.25),
+                    color: Colors.indigo.withValues(alpha: 0.25),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -155,10 +159,10 @@ class _TugasSesi1PageState extends State<TugasSesi1Page> {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: numberColor.withOpacity(0.12),
+                        color: numberColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: numberColor.withOpacity(0.4),
+                          color: numberColor.withValues(alpha: 0.4),
                           width: 1.5,
                         ),
                       ),
