@@ -1,33 +1,58 @@
 import 'package:flutter/material.dart';
-import 'sesi_1.dart'; // Import Tugas Sesi 1
-import 'sesi_2.dart'; // Import Tugas Sesi 2
-import 'latihan_sesi2.dart'; // Import Latihan Sesi 2
+import 'package:provider/provider.dart';
+
+// Import Provider & Screen Sesi 3
+import 'providers/cart_provider.dart';
+import 'providers/theme_provider.dart';
+import 'screens/catalog_screen.dart';
+
+// Import File Sesi & Latihan Lainnya
+import 'sesi_1.dart'; 
+import 'sesi_2.dart'; 
+import 'latihan_sesi2.dart'; 
+import 'latihan_sesi3.dart'; 
+import 'profil_page.dart'; // Import file profil yang sudah dipisah
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
+// Konfigurasi Utama Aplikasi
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Aplikasi Tugas Flutter',
+      themeMode: themeProvider.themeMode,
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.indigo,
         brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+        brightness: Brightness.dark,
       ),
       home: const DashboardScreen(),
     );
   }
 }
 
-// ----------------------------------------------------
-// HALAMAN UTAMA (DASHBOARD)
-// ----------------------------------------------------
+// Halaman Utama (Dashboard)
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
@@ -36,6 +61,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
+        // Tombol Shortcut ke Halaman Profil di Kiri Atas
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: GestureDetector(
@@ -67,7 +93,7 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner Selamat Datang
+            // 📌 KOMPONEN 1: Banner Informasi Mata Kuliah
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -100,15 +126,9 @@ class DashboardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 25),
 
-// ===================================================
-// Daftar Tugas dan Latihan Sesi
-// ===================================================
-
-// ---------------------------------
-// 📌 SEKSI 1: DAFTAR TUGAS SESI
-// ---------------------------------
+            // 📌 KOMPONEN 2: Daftar Sesi / Menu Navigasi Tugas & Latihan
             const Text(
-              '📌 Tugas Utama Sesi',
+              'Tugas Utama Sesi',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -125,9 +145,7 @@ class DashboardScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const TugasSesi1Page(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const TugasSesi1Page()),
                 );
               },
             ),
@@ -141,20 +159,29 @@ class DashboardScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const TugasSesi2Page(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const TugasSesi2Page()),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+
+            _buildMenuCard(
+              title: 'Tugas Sesi 3',
+              subtitle: 'NusaBookstore State Management (Provider)',
+              icon: Icons.assignment_rounded,
+              color: Colors.indigo,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CatalogScreen()),
                 );
               },
             ),
 
             const SizedBox(height: 25),
 
-// ---------------------------------
-// 💻 SEKSI 2: DAFTAR LATIHAN SESI
-// ---------------------------------
             const Text(
-              '💻 Latihan Praktik Sesi',
+              'Latihan Praktik Sesi',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -171,9 +198,21 @@ class DashboardScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const LatihanSesi2Page(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const LatihanSesi2Page()),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+
+            _buildMenuCard(
+              title: 'Latihan Sesi 3',
+              subtitle: 'Latihan State Management',
+              icon: Icons.code_rounded,
+              color: Colors.deepOrange,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LatihanSesi3Page()),
                 );
               },
             ),
@@ -183,6 +222,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
+  // Widget Pendukung untuk Membuat Kartu Menu
   Widget _buildMenuCard({
     required String title,
     required String subtitle,
@@ -222,10 +262,7 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
                     ),
                   ],
                 ),
@@ -237,144 +274,6 @@ class DashboardScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// ----------------------------------------------------
-// HALAMAN PROFIL MAHASISWA
-// ----------------------------------------------------
-class ProfilPage extends StatelessWidget {
-  const ProfilPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        title: const Text(
-          'Profil Mahasiswa',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Colors.black,
-                    child: CircleAvatar(
-                      radius: 52,
-                      backgroundImage: AssetImage('assets/Pp.jpeg'),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  const Text(
-                    'Imam Abdurohman Ramdani',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    'Program Perangkat Mobile',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 25),
-
-            Card(
-              elevation: 2,
-              shadowColor: Colors.black12,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  children: [
-                    _buildInfoTile(
-                      icon: Icons.badge_outlined,
-                      label: 'NIM',
-                      value: '20240040112',
-                    ),
-                    const Divider(indent: 20, endIndent: 20, height: 1),
-                    _buildInfoTile(
-                      icon: Icons.school_outlined,
-                      label: 'Semester',
-                      value: 'Semester 5',
-                    ),
-                    const Divider(indent: 20, endIndent: 20, height: 1),
-                    _buildInfoTile(
-                      icon: Icons.class_outlined,
-                      label: 'Kelas',
-                      value: 'TI24G',
-                    ),
-                    const Divider(indent: 20, endIndent: 20, height: 1),
-                    _buildInfoTile(
-                      icon: Icons.school_outlined,
-                      label: 'Program Studi',
-                      value: 'Teknik Informatika',
-                    ),
-                    const Divider(indent: 20, endIndent: 20, height: 1),
-                    _buildInfoTile(
-                      icon: Icons.phone_android_outlined,
-                      label: 'No HP',
-                      value: '0838-0604-5240',
-                    ),
-                    const Divider(indent: 20, endIndent: 20, height: 1),
-                    _buildInfoTile(
-                      icon: Icons.email_outlined,
-                      label: 'Email',
-                      value: 'imam.abdurohman_ti24@nusaputra.ac.id',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoTile({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 20,
-        backgroundColor: Colors.indigo.withOpacity(0.1),
-        child: Icon(icon, color: Colors.indigo, size: 20),
-      ),
-      title: Text(
-        label,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey[600],
-        ),
-      ),
-      subtitle: Text(
-        value,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
         ),
       ),
     );
