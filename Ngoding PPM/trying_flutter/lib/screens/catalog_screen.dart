@@ -48,6 +48,8 @@ class CatalogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.watch<ThemeProvider>().isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -56,23 +58,25 @@ class CatalogScreen extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         actions: [
+          // Toggle Theme
           IconButton(
+            tooltip: isDark ? 'Mode Terang' : 'Mode Gelap',
             icon: Icon(
-              context.watch<ThemeProvider>().isDarkMode
-                  ? Icons.light_mode
-                  : Icons.dark_mode,
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              color: isDark ? Colors.amber : null,
             ),
             onPressed: () {
               context.read<ThemeProvider>().toggleTheme();
             },
           ),
+          // Badge Keranjang Belanja
           Consumer<CartProvider>(
             builder: (context, cart, child) {
               return Stack(
                 alignment: Alignment.center,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.shopping_cart),
+                    icon: const Icon(Icons.shopping_cart_outlined),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -89,7 +93,7 @@ class CatalogScreen extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: const BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.redAccent,
                           shape: BoxShape.circle,
                         ),
                         constraints: const BoxConstraints(
@@ -115,38 +119,68 @@ class CatalogScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profil Mahasiswa
+            // Kartu Profil Mahasiswa (Dengan Foto Profil)
             Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      radius: 26,
+                      radius: 32,
                       backgroundColor: Colors.indigo,
-                      child: Icon(Icons.person, color: Colors.white),
+                      child: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('assets/Pp.jpeg'),
+                      ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            namaMahasiswa,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
+                        children: [
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  namaMahasiswa,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Icon(
+                                Icons.verified_rounded,
+                                color: Colors.blueAccent,
+                                size: 16,
+                              ),
+                            ],
                           ),
-                          Text('NIM: $nimMahasiswa',
-                              style: TextStyle(fontSize: 12)),
-                          Text(prodiKelasMahasiswa,
-                              style: TextStyle(fontSize: 12)),
+                          const SizedBox(height: 2),
+                          Text(
+                            'NIM: $nimMahasiswa',
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodySmall?.color,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            prodiKelasMahasiswa,
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodySmall?.color,
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -154,12 +188,16 @@ class CatalogScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+
+            // Judul Katalog
             const Text(
               '📚 Katalog NusaBookstore',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
+
+            // Daftar Buku
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -168,7 +206,7 @@ class CatalogScreen extends StatelessWidget {
                 final book = _dummyBooks[index];
                 return Card(
                   margin: const EdgeInsets.only(bottom: 12),
-                  elevation: 2,
+                  elevation: 1.5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -180,7 +218,7 @@ class CatalogScreen extends StatelessWidget {
                           width: 60,
                           height: 80,
                           decoration: BoxDecoration(
-                            color: Colors.indigo.shade50,
+                            color: Colors.indigo.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(
@@ -204,8 +242,8 @@ class CatalogScreen extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 'Penulis: ${book.author}',
-                                style: const TextStyle(
-                                  color: Colors.grey,
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.bodySmall?.color,
                                   fontSize: 11,
                                 ),
                               ),
@@ -226,22 +264,26 @@ class CatalogScreen extends StatelessWidget {
                             backgroundColor: Colors.indigo,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 6),
+                              horizontal: 10,
+                              vertical: 8,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                           onPressed: () {
                             context.read<CartProvider>().addItem(book);
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('✅ ${book.title} ditambahkan!'),
+                                content: Text('✅ ${book.title} masuk ke keranjang!'),
                                 duration: const Duration(milliseconds: 800),
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
                           },
                           icon: const Icon(Icons.add_shopping_cart, size: 14),
-                          label: const Text('Tambah',
-                              style: TextStyle(fontSize: 11)),
+                          label: const Text('Tambah', style: TextStyle(fontSize: 11)),
                         ),
                       ],
                     ),

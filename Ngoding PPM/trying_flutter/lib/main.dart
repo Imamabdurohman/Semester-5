@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// Import Provider & Screen Sesi 3
 import 'providers/cart_provider.dart';
 import 'providers/theme_provider.dart';
 import 'screens/catalog_screen.dart';
 
-// Import File Sesi & Latihan Lainnya
 import 'sesi_1.dart'; 
 import 'sesi_2.dart'; 
 import 'latihan_sesi2.dart'; 
 import 'latihan_sesi3.dart'; 
-import 'profil_page.dart'; // Import file profil yang sudah dipisah
+import 'profil_page.dart';
 
 void main() {
   runApp(
@@ -25,7 +23,6 @@ void main() {
   );
 }
 
-// Konfigurasi Utama Aplikasi
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -37,31 +34,46 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aplikasi Tugas Flutter',
       themeMode: themeProvider.themeMode,
+      // Tema Terang Modern
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-        brightness: Brightness.light,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8F9FA),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          elevation: 0,
+        ),
       ),
+      // Tema Gelap
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.dark,
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          elevation: 0,
+        ),
       ),
       home: const DashboardScreen(),
     );
   }
 }
 
-// Halaman Utama (Dashboard)
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+    final isDark = themeProvider.isDarkMode;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
-        // Tombol Shortcut ke Halaman Profil di Kiri Atas
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: GestureDetector(
@@ -75,9 +87,9 @@ class DashboardScreen extends StatelessWidget {
             },
             child: const CircleAvatar(
               radius: 18,
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.indigo,
               child: CircleAvatar(
-                radius: 20,
+                radius: 17,
                 backgroundImage: AssetImage('assets/Pp.jpeg'),
               ),
             ),
@@ -87,23 +99,46 @@ class DashboardScreen extends StatelessWidget {
           'My Dashboard',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          // Tombol Sakelar Mode Terang / Gelap Global
+          IconButton(
+            tooltip: isDark ? 'Mode Terang' : 'Mode Gelap',
+            icon: Icon(
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              color: isDark ? Colors.amber : Colors.indigo,
+            ),
+            onPressed: () {
+              context.read<ThemeProvider>().toggleTheme();
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 📌 KOMPONEN 1: Banner Informasi Mata Kuliah
+            // Banner Informasi Mata Kuliah
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Colors.indigo, Colors.blueAccent],
+                gradient: LinearGradient(
+                  colors: isDark 
+                      ? [Colors.indigo.shade900, Colors.indigo.shade700]
+                      : [Colors.indigo, Colors.blueAccent],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.indigo.withOpacity(0.2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +151,7 @@ class DashboardScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 6),
                   Text(
                     'Dosen Pengampu: Bapak Nugraha, M.Kom.',
                     style: TextStyle(color: Colors.white70, fontSize: 14),
@@ -124,20 +159,21 @@ class DashboardScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 24),
 
-            // 📌 KOMPONEN 2: Daftar Sesi / Menu Navigasi Tugas & Latihan
-            const Text(
-              'Tugas Utama Sesi',
+            // Daftar Tugas Utama Sesi
+            Text(
+              '📌 Tugas Utama Sesi',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.indigo,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(height: 12),
 
             _buildMenuCard(
+              context,
               title: 'Tugas Sesi 1',
               subtitle: 'Aplikasi Counter (Genap/Ganjil)',
               icon: Icons.assignment_rounded,
@@ -152,6 +188,7 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             _buildMenuCard(
+              context,
               title: 'Tugas Sesi 2',
               subtitle: 'Online Shop Profile & Product',
               icon: Icons.assignment_rounded,
@@ -166,6 +203,7 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             _buildMenuCard(
+              context,
               title: 'Tugas Sesi 3',
               subtitle: 'NusaBookstore State Management (Provider)',
               icon: Icons.assignment_rounded,
@@ -178,19 +216,21 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 24),
 
-            const Text(
-              'Latihan Praktik Sesi',
+            // Daftar Latihan Praktik Sesi
+            Text(
+              '💻 Latihan Praktik Sesi',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.deepOrange,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             const SizedBox(height: 12),
 
             _buildMenuCard(
+              context,
               title: 'Latihan Sesi 2',
               subtitle: 'Counter Leveling & Interaktif',
               icon: Icons.code_rounded,
@@ -205,6 +245,7 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             _buildMenuCard(
+              context,
               title: 'Latihan Sesi 3',
               subtitle: 'Latihan State Management',
               icon: Icons.code_rounded,
@@ -222,30 +263,31 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // Widget Pendukung untuk Membuat Kartu Menu
-  Widget _buildMenuCard({
+  Widget _buildMenuCard(
+    BuildContext context, {
     required String title,
     required String subtitle,
     required IconData icon,
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      elevation: 2,
-      shadowColor: Colors.black12,
+    final cardColor = Theme.of(context).cardColor;
+
+    return Card(
+      elevation: 1.5,
+      color: cardColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(18.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
               CircleAvatar(
-                radius: 26,
+                radius: 24,
                 backgroundColor: color.withOpacity(0.12),
-                child: Icon(icon, color: color, size: 26),
+                child: Icon(icon, color: color, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -256,21 +298,24 @@ class DashboardScreen extends StatelessWidget {
                       title,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 15,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 18,
-                color: Colors.grey[400],
+                size: 16,
+                color: Colors.grey.shade400,
               ),
             ],
           ),
