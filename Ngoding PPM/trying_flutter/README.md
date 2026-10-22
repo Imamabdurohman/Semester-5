@@ -1,26 +1,13 @@
-# trying_flutter
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+# Dokumentasi
 
 ## 🎥 Video Demo Aplikasi Sesi 3
 
 <video src="docs/Sesi 3.mp4" controls width="100%" style="max-height: 500px;"></video>
 
-
 https://github.com/user-attachments/assets/11e18566-9da8-42c6-b218-f3887bd37d41
 
+# ===========================================
+
+## 🎥 Video Demo Aplikasi Sesi 3
+
+https://github.com/user-attachments/assets/0d306899-efa1-4497-9d33-c4cceb2e1c68
