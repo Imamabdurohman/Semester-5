@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/cart_provider.dart';
-import 'providers/theme_provider.dart';
-import 'screens/catalog_screen.dart';
+// Sesi 4
+import 'sesi_4/nusa_travel_app.dart';
 
-import 'sesi_1.dart'; 
-import 'sesi_2.dart'; 
-import 'latihan_sesi2.dart'; 
-import 'latihan_sesi3.dart'; 
+// Import Sesi 3
+import 'sesi_3/providers/cart_provider.dart';
+import 'sesi_3/providers/theme_provider.dart';
+import 'sesi_3/screens/catalog_screen.dart';
+import 'sesi_3/latihan_sesi3.dart';
+import 'sesi_3/bloc/bloc_page.dart';
+
+// Import Sesi 1 & Sesi 2
+import 'sesi_1/sesi_1.dart'; 
+import 'sesi_2/sesi_2.dart'; 
+import 'sesi_2/latihan_sesi2.dart'; 
+
+// Import Profil
 import 'profil_page.dart';
 
 void main() {
@@ -33,30 +41,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Aplikasi Tugas Flutter',
+      
+      // 1. Hubungkan status tema dari Provider
       themeMode: themeProvider.themeMode,
-      // Tema Terang Modern
+
+      // 2. Definisi Tema Terang Global
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: const Color(0xFFF8F9FA),
-        appBarTheme: const AppBarTheme(
-          centerTitle: false,
-          elevation: 0,
-        ),
       ),
-      // Tema Gelap
+
+      // 3. Definisi Tema Gelap Global
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
           brightness: Brightness.dark,
-        ),
-        appBarTheme: const AppBarTheme(
-          centerTitle: false,
-          elevation: 0,
         ),
       ),
       home: const DashboardScreen(),
@@ -69,8 +72,9 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
-    final isDark = themeProvider.isDarkMode;
+    //final themeProvider = context.watch<ThemeProvider>();
+    // Ganti baris 76:
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -86,10 +90,10 @@ class DashboardScreen extends StatelessWidget {
               );
             },
             child: const CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.indigo,
+              radius: 19,
+              backgroundColor: Colors.black,
               child: CircleAvatar(
-                radius: 17,
+                radius: 18,
                 backgroundImage: AssetImage('assets/Pp.jpeg'),
               ),
             ),
@@ -100,7 +104,6 @@ class DashboardScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          // Tombol Sakelar Mode Terang / Gelap Global
           IconButton(
             tooltip: isDark ? 'Mode Terang' : 'Mode Gelap',
             icon: Icon(
@@ -119,7 +122,6 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner Informasi Mata Kuliah
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -161,7 +163,9 @@ class DashboardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Daftar Tugas Utama Sesi
+            // ======================
+            // Tugas & Latihan Sesi
+            // ======================
             Text(
               '📌 Tugas Utama Sesi',
               style: TextStyle(
@@ -216,9 +220,21 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
 
+            _buildMenuCard(
+              context,
+              title: 'Tugas Sesi 4',
+              subtitle: 'NusaTravel App (Routing & Navigation)',
+              icon: Icons.card_travel_rounded,
+              color: Colors.indigo,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NusaTravelApp()),
+                );
+              },
+            ),
             const SizedBox(height: 24),
 
-            // Daftar Latihan Praktik Sesi
             Text(
               '💻 Latihan Praktik Sesi',
               style: TextStyle(
@@ -257,6 +273,21 @@ class DashboardScreen extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 10),
+
+            _buildMenuCard(
+              context,
+              title: 'Demo BLoC (Sesi 3)',
+              subtitle: 'State Management BLoC Pattern',
+              icon: Icons.developer_board_rounded,
+              color: Colors.purple,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BlocPage()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -271,11 +302,9 @@ class DashboardScreen extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
-    final cardColor = Theme.of(context).cardColor;
-
     return Card(
       elevation: 1.5,
-      color: cardColor,
+      color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: onTap,
