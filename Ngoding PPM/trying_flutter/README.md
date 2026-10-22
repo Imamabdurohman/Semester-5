@@ -20,3 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 ## 🎥 Video Demo Aplikasi Sesi 3
 
 <video src="docs/Sesi 3.mp4" controls width="100%" style="max-height: 500px;"></video>
+
+
+https://github.com/user-attachments/assets/11e18566-9da8-42c6-b218-f3887bd37d41
+
