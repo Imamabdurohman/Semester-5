@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Sesi 5
+import 'sesi_5/nusa_event_app.dart';
+
 // Sesi 4
 import 'sesi_4/nusa_travel_app.dart';
 
@@ -234,6 +237,23 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 24),
+
+            _buildMenuCard(
+              context,
+              title: 'Tugas Sesi 5',
+              subtitle: 'NusaEventApp ',
+              icon: Icons.card_travel_rounded,
+              color: Colors.indigo,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NusaEventApp()),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+
+
 
             Text(
               '💻 Latihan Praktik Sesi',
