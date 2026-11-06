@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.4.3
   flutter_bloc: ^9.1.1
+  http: ^1.2.0        # <-- Tambahkan baris ini
+  provider: ^6.1.2    # <-- Tambahkan baris ini (untuk Provider di main.dart)
 
 dev_dependencies:
   flutter_test:

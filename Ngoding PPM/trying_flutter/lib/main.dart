@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Sesi 6
+import 'sesi_6/nusa_info_app.dart';
+
 // Sesi 5
 import 'sesi_5/nusa_event_app.dart';
 
@@ -248,6 +251,21 @@ class DashboardScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const NusaEventApp()),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+
+            _buildMenuCard(
+              context,
+              title: 'Tugas Sesi 6',
+              subtitle: 'NusaInfo Integrasi API & HTTP Package',
+              icon: Icons.cloud_download_rounded,
+              color: Colors.indigo,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NusaInfoApp()),
                 );
               },
             ),
