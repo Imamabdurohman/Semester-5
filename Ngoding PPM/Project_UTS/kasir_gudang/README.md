@@ -16,7 +16,7 @@ Aplikasi ini dipilih untuk membantu pemilik toko kelontong atau grosir memantau 
 
 ## Screenshot Aplikasi
 ### 1. Setiap Tab
-- **Tab Beranda:** ![Beranda](<img width="1442" height="3202" alt="localhost_65514_(Samsung Galaxy S20 Ultra)" src="https://github.com/user-attachments/assets/bf989f3f-17ec-42b7-a854-453cec650d28" />
+- **Tab Beranda:** ![Beranda](<img width="1442" height="3202" alt="localhost_65514_(Samsung Galaxy S20 Ultra) (1)" src="https://github.com/user-attachments/assets/c373575a-92a2-4198-8491-5ba97dbd7474" />
 )
 - **Tab Stok Barang:** ![Stok Barang](link_gambar_stok)
 - **Tab Checklist Stok:** ![Checklist Stok](link_gambar_checklist)
