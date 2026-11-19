@@ -1,17 +1,29 @@
-# kasir_gudang
+# Kasir Gudang
 
-A new Flutter project.
+**Tema:** Manajemen Stok & Kasir Toko Kelontong / Sembako
 
-## Getting Started
+Aplikasi ini dipilih untuk membantu pemilik toko kelontong atau grosir memantau stok barang antara gudang dan etalase secara rapi. Dengan pencatatan tugas restock dan rekap penjualan harian dalam satu aplikasi, proses operasional toko jadi lebih praktis dan meminimalkan risiko kehabisan stok.
 
-This project is a starting point for a Flutter application.
+## Tabel Pemetaan Model
+| Kategori Data | Nama Model | Keterangan |
+| :--- | :--- | :--- |
+| **Data Utama** | `BarangToko` | Menyimpan daftar inventaris barang toko beserta harga beli, harga jual, dan jumlah stok gudang maupun etalase. |
+| **Data Aksi** | `TugasStok` | Menyimpan daftar tugas restock atau pengecekan barang yang statusnya bisa dicentang selesai oleh pengguna. |
+| **Data Informasi** | `RekapHarian` | Menampilkan ringkasan informasi transaksi dan rekap pendapatan penjualan harian toko. |
 
-A few resources to get you started if this is your first Flutter project:
+## Fitur Buatan Sendiri
+*(Tulis 2–3 kalimat penjelasan fitur tambahan yang kamu bikin sendiri di project ini, misalnya fitur pencarian barang, filter kategori, atau perhitungan selisih stok otomatis)*
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Screenshot Aplikasi
+### 1. Setiap Tab
+- **Tab Beranda:** ![Beranda](link_gambar_beranda)
+- **Tab Stok Barang:** ![Stok Barang](link_gambar_stok)
+- **Tab Checklist Stok:** ![Checklist Stok](link_gambar_checklist)
+- **Tab Kasir Rekap:** ![Kasir Rekap](link_gambar_rekap)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 2. Beranda Sebelum & Sesudah Item Dicentang
+- **Sebelum Dicentang:** ![Sebelum](link_gambar_sebelum)
+- **Sesudah Dicentang:** ![Sesudah](link_gambar_sesudah)
+
+## Hasil `flutter test`
+![Hasil Flutter Test](link_gambar_test)
