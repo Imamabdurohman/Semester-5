@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Sesi 9
+import 'sesi_9/nusa_kas_app.dart';
+
 // Sesi 6
 import 'sesi_6/nusa_info_app.dart';
 
@@ -78,8 +81,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final themeProvider = context.watch<ThemeProvider>();
-    // Ganti baris 76:
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -225,6 +226,7 @@ class DashboardScreen extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 10),
 
             _buildMenuCard(
               context,
@@ -239,13 +241,13 @@ class DashboardScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 10),
 
             _buildMenuCard(
               context,
               title: 'Tugas Sesi 5',
-              subtitle: 'NusaEventApp ',
-              icon: Icons.card_travel_rounded,
+              subtitle: 'NusaEventApp',
+              icon: Icons.event_available_rounded,
               color: Colors.indigo,
               onTap: () {
                 Navigator.push(
@@ -254,7 +256,7 @@ class DashboardScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 10),
 
             _buildMenuCard(
               context,
@@ -269,9 +271,22 @@ class DashboardScreen extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 10),
+
+            _buildMenuCard(
+              context,
+              title: 'Tugas Sesi 9',
+              subtitle: 'NusaKas Pengujian Unit, Widget & Integrasi',
+              icon: Icons.account_balance_wallet_rounded,
+              color: Colors.teal,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NusaKasApp()),
+                );
+              },
+            ),
             const SizedBox(height: 24),
-
-
 
             Text(
               '💻 Latihan Praktik Sesi',
